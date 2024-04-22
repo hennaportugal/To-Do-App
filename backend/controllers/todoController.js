@@ -10,7 +10,7 @@ exports.createDB = (req, res) => {
 }
 
 exports.createTable = (req, res) => {
-    let q = 'CREATE TABLE todos(id int AUTO_INCREMENT, task VARCHAR(255), dateCreated VARCHAR(255), PRIMARY KEY(id))'
+    let q = 'CREATE TABLE todos(id int AUTO_INCREMENT, task VARCHAR(255), dueDate VARCHAR(255), PRIMARY KEY(id))'
 
     db.query(q, (err) => {
         if (err) throw err
@@ -21,9 +21,9 @@ exports.createTable = (req, res) => {
 exports.createList = (req, res) => {
     let q = 'INSERT INTO todos SET ?'
 
-    const { task, dateCreated } = req.body
+    const { task, dueDate } = req.body
 
-    db.query(q, { task, dateCreated }, (err, result) => {
+    db.query(q, { task, dueDate }, (err, result) => {
         if (err) return res.json(err)
         return res.status(200).json(result)
     })
@@ -48,11 +48,11 @@ exports.showSingleTodo = (req, res) => {
 }
 
 exports.updateTodo = (req, res) => {
-    const { task, dateCreated } = req.body
+    const { task, dueDate } = req.body
 
     let q = `UPDATE todos SET ? WHERE id=${req.params.id}`
 
-    db.query(q, { task, dateCreated }, (err, result) => {
+    db.query(q, { task, dueDate }, (err, result) => {
         if (err) return res.json(err)
         return res.status(200).json(result)
     })
@@ -63,6 +63,6 @@ exports.deleteSingleTodo = (req, res) => {
 
     db.query(q, (err, result) => {
         if (err) return res.json(err)
-        return res.status(200).json({ data: "task deleted"})
+        return res.status(200).json({ data: "task deleted" })
     })
 }

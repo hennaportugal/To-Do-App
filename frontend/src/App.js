@@ -6,7 +6,7 @@ const App = () => {
     const [editMode, setEditMode] = useState(false)
     const [list, setList] = useState([])
     const [task, setTask] = useState('')
-    const [dateCreated, setDateCreated] = useState('')
+    const [dueDate, setdueDate] = useState('')
     const [userId, setUserId] = useState('')
 
 
@@ -23,10 +23,10 @@ const App = () => {
         e.preventDefault()
 
         try {
-            const newTodo = await axios.post('/api/create/list', { task, dateCreated })
+            const newTodo = await axios.post('/api/create/list', { task, dueDate })
             if (newTodo.status === 200) {
                 setTask('')
-                setDateCreated('')
+                setdueDate('')
                 showTodos()
             }
         } catch (error) {
@@ -52,7 +52,7 @@ const App = () => {
         try {
             const { data } = await axios.get(`/api/todo/${id}`)
             setTask(data.task)
-            setDateCreated(data.dateCreated)
+            setdueDate(data.dueDate)
             setUserId(data.id)
         } catch (error) {
             console.log(error)
@@ -63,13 +63,13 @@ const App = () => {
         e.preventDefault()
 
         try {
-            const todoToUpdate = await axios.put(`/api/update/todo/${userId}`, {task, dateCreated})
+            const todoToUpdate = await axios.put(`/api/update/todo/${userId}`, { task, dueDate })
             console.log(todoToUpdate)
             if (todoToUpdate.status === 200) {
                 console.log(`ID ${userId}`)
                 setEditMode(false)
                 setTask('')
-                setDateCreated('')
+                setdueDate('')
                 showTodos()
             }
         } catch (error) {
@@ -91,7 +91,7 @@ const App = () => {
                                 <input onChange={(e) => setTask(e.target.value)} value={task} className="form-control" type="text" placeholder="Task" name="task"></input>
                             </div>
                             <div style={{ flex: 1 }}>
-                                <input onChange={(e) => setDateCreated(e.target.value)} value={dateCreated} className="form-control" type="text" placeholder="Date (YYYY-MM-DD)" name="dateCreated"></input>
+                                <input onChange={(e) => setdueDate(e.target.value)} value={dueDate} className="form-control" type="text" placeholder="Date (YYYY-MM-DD)" name="dueDate"></input>
                             </div>
                             {
                                 editMode ?
@@ -118,7 +118,7 @@ const App = () => {
                                 <tr key={val.id} >
                                     <th scope="row">{val.id}</th>
                                     <td>{val.task}</td>
-                                    <td>{val.dateCreated}</td>
+                                    <td>{val.dueDate}</td>
                                     <td>
                                         <i onClick={() => showSingleTodo(val.id)} className="fa-solid fa-pen-to-square" style={{ color: "green", cursor: "pointer", marginRight: "25px" }} ></i>
                                         <i onClick={() => deleteTodo(val.id)} style={{ color: "red", cursor: "pointer" }} className="fa-solid fa-trash-can"></i>
