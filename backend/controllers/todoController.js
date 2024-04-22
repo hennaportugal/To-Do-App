@@ -10,7 +10,7 @@ exports.createDB = (req, res) => {
 }
 
 exports.createTable = (req, res) => {
-    let q = 'CREATE TABLE todos(id int AUTO_INCREMENT, task VARCHAR(255), dueDate VARCHAR(255), PRIMARY KEY(id))'
+    let q = 'CREATE TABLE todo(id int AUTO_INCREMENT, task VARCHAR(255), dueDate VARCHAR(255), PRIMARY KEY(id))'
 
     db.query(q, (err) => {
         if (err) throw err
@@ -19,7 +19,7 @@ exports.createTable = (req, res) => {
 }
 
 exports.createList = (req, res) => {
-    let q = 'INSERT INTO todos SET ?'
+    let q = 'INSERT INTO todo SET ?'
 
     const { task, dueDate } = req.body
 
@@ -30,7 +30,7 @@ exports.createList = (req, res) => {
 }
 
 exports.showTodos = (req, res) => {
-    let q = 'SELECT * FROM todos'
+    let q = 'SELECT * FROM todo'
 
     db.query(q, (err, result) => {
         if (err) return res.json(err)
@@ -39,7 +39,7 @@ exports.showTodos = (req, res) => {
 }
 
 exports.showSingleTodo = (req, res) => {
-    let q = `SELECT * FROM todos WHERE id=${req.params.id}`
+    let q = `SELECT * FROM todo WHERE id=${req.params.id}`
 
     db.query(q, (err, result) => {
         if (err) return res.json(err)
@@ -50,7 +50,7 @@ exports.showSingleTodo = (req, res) => {
 exports.updateTodo = (req, res) => {
     const { task, dueDate } = req.body
 
-    let q = `UPDATE todos SET ? WHERE id=${req.params.id}`
+    let q = `UPDATE todo SET ? WHERE id=${req.params.id}`
 
     db.query(q, { task, dueDate }, (err, result) => {
         if (err) return res.json(err)
@@ -59,7 +59,7 @@ exports.updateTodo = (req, res) => {
 }
 
 exports.deleteSingleTodo = (req, res) => {
-    let q = `DELETE FROM todos WHERE id=${req.params.id}`
+    let q = `DELETE FROM todo WHERE id=${req.params.id}`
 
     db.query(q, (err, result) => {
         if (err) return res.json(err)
